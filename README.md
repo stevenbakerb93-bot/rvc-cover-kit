@@ -17,7 +17,11 @@
 
 <img width="658" height="367" alt="运行流程（running process）" src="https://github.com/user-attachments/assets/8ec5236e-2010-42e2-93f2-19f734ced306" />
 
-![cover.py 流程图](docs/workflow.svg)
+<sub>cover.bat 实际运行时的输出，回答几个问题就开始处理</sub>
+
+![cover.py 处理顺序](docs/workflow.svg)
+
+<sub>内部处理顺序；分轨会保留，所以后续只调音量只需几秒</sub>
 
 实测耗时（RTX 5060 Laptop，4 分 09 秒的歌）：分离约 78 秒、换声约 30 秒、混音 1 秒，全流程约 110 秒。分轨留在 `output/_work_<歌名>/`，之后调音量只要 4 秒，换音色或改音调加 `--reuse-stems` 可以跳过分离。
 
