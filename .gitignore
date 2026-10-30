@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+runtime/
+
+# 虚拟环境与运行数据
+logs/
+configs/*.json
+
+# 模型与权重：体积大，且各自有独立的许可，不进仓库
+assets/
+*.pth
+*.index
+*.ckpt
+*.pt
+*.onnx
+*.safetensors
+
+# 产物
+output/
+tune/
+_stem_*/
+_work_*/
+*.wav
+*.mp3
+*.flac
+*.m4a
+*.mp4
+
+# 临时与备份
+_backup_*/
+TEMP/
+tmp/
+*.log
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
