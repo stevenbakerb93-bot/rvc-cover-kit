@@ -21,6 +21,20 @@
 
 实测耗时（RTX 5060 Laptop，4 分 09 秒的歌）：分离约 78 秒、换声约 30 秒、混音 1 秒，全流程约 110 秒。分轨留在 `output/_work_<歌名>/`，之后调音量只要 4 秒，换音色或改音调加 `--reuse-stems` 可以跳过分离。
 
+## 试听
+
+同一段副歌（原曲第 90–120 秒，30 秒），只换音色模型，音调不动：
+
+| 版本 | 音色模型 | 关键设置 | 试听 |
+|---|---|---|---|
+| 原曲 | — | — | [ref-rain-original.mp3](docs/samples/ref-rain-original.mp3) |
+| 翻唱 A | `kikiV1.pth` | 无 `.index`，`--index-rate 0` | [ref-rain-kiki.mp3](docs/samples/ref-rain-kiki.mp3) |
+| 翻唱 B | `FeiyuVoice-RVC-v1.pth` | 有 `.index`，`--index-rate 0.5` | [ref-rain-feiyu.mp3](docs/samples/ref-rain-feiyu.mp3) |
+
+三个片段都做过 −16 LUFS 响度归一化，**所以音量大小不代表成品默认混音**，只用来公平对比音色与清晰度。两版均为 `--pitch 0 --transpose 0 --protect 0.33 --f0-method rmvpe`。
+
+> 示例音频仅用于演示工具效果，原曲版权归原权利人所有；如权利人提出异议会立即移除。
+
 ## 环境要求
 
 - Windows 10 / 11
