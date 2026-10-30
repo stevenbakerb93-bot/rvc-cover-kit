@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="330" viewBox="0 0 960 330" font-family="-apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <rect x="0" y="0" width="960" height="330" fill="#ffffff"/>
+  <text x="30" y="34" font-size="16" font-weight="600" fill="#1f2328">cover.py 一条命令做的事</text>
+  <text x="30" y="56" font-size="12" fill="#57606a">分轨全部保留，改音量不必重新分离和换声</text>
+
+  <!-- 箭头定义 -->
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#57606a"/>
+    </marker>
+    <marker id="arwd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4ac26b"/>
+    </marker>
+  </defs>
+
+  <!-- 方框 1 原曲 -->
+  <rect x="30" y="110" width="150" height="86" rx="8" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+  <text x="105" y="141" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">原曲</text>
+  <text x="105" y="163" font-size="11" fill="#57606a" text-anchor="middle">mp3 / wav / flac / m4a</text>
+  <text x="105" y="180" font-size="11" fill="#57606a" text-anchor="middle">多声道自动下混</text>
+
+  <!-- 方框 2 分离 -->
+  <rect x="215" y="110" width="150" height="86" rx="8" fill="#ddf4ff" stroke="#54aeff" stroke-width="1.5"/>
+  <text x="290" y="141" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">人声分离</text>
+  <text x="290" y="163" font-size="11" fill="#57606a" text-anchor="middle">pymss / bs_roformer</text>
+  <text x="290" y="180" font-size="11" fill="#57606a" text-anchor="middle">约 78 秒</text>
+
+  <!-- 方框 3 RVC -->
+  <rect x="400" y="110" width="150" height="86" rx="8" fill="#fff8c5" stroke="#d4a72c" stroke-width="1.5"/>
+  <text x="475" y="141" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">RVC 换声</text>
+  <text x="475" y="163" font-size="11" fill="#57606a" text-anchor="middle">30 秒切片推理</text>
+  <text x="475" y="180" font-size="11" fill="#57606a" text-anchor="middle">音色模型 + 音高</text>
+
+  <!-- 方框 4 混音 -->
+  <rect x="585" y="110" width="150" height="86" rx="8" fill="#dafbe1" stroke="#4ac26b" stroke-width="1.5"/>
+  <text x="660" y="141" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">混音</text>
+  <text x="660" y="163" font-size="11" fill="#57606a" text-anchor="middle">人声 / 伴奏音量</text>
+  <text x="660" y="180" font-size="11" fill="#57606a" text-anchor="middle">0.95 峰值限制</text>
+
+  <!-- 方框 5 成品 -->
+  <rect x="770" y="110" width="150" height="86" rx="8" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+  <text x="845" y="141" font-size="14" font-weight="600" fill="#1f2328" text-anchor="middle">成品</text>
+  <text x="845" y="163" font-size="11" fill="#57606a" text-anchor="middle">wav + mp3</text>
+  <text x="845" y="180" font-size="11" fill="#57606a" text-anchor="middle">文件名带参数</text>
+
+  <!-- 主流程箭头 -->
+  <line x1="180" y1="153" x2="211" y2="153" stroke="#57606a" stroke-width="1.6" marker-end="url(#arw)"/>
+  <line x1="365" y1="153" x2="396" y2="153" stroke="#57606a" stroke-width="1.6" marker-end="url(#arw)"/>
+  <line x1="550" y1="153" x2="581" y2="153" stroke="#57606a" stroke-width="1.6" marker-end="url(#arw)"/>
+  <line x1="735" y1="153" x2="766" y2="153" stroke="#57606a" stroke-width="1.6" marker-end="url(#arw)"/>
+
+  <!-- 伴奏支路 -->
+  <path d="M290,196 L290,255 L660,255 L660,200" fill="none" stroke="#4ac26b" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arwd)"/>
+  <rect x="404" y="244" width="148" height="22" fill="#ffffff"/>
+  <text x="478" y="259" font-size="11" fill="#2da44e" text-anchor="middle">伴奏（可整体移调）</text>
+
+  <!-- 底部说明 -->
+  <text x="30" y="300" font-size="11.5" fill="#57606a">分轨留在 output/_work_&lt;歌名&gt;/，之后改音量只需 mix.bat，约 4 秒；换音色或改音调加 --reuse-stems，省掉分离。</text>
+</svg>

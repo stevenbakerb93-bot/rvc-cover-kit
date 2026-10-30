@@ -43,3 +43,15 @@ tmp/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# 文档里的示意图与试听片段允许进仓库
+# （上面 *.png / *.mp3 / *.wav 是全局排除的，这里按目录放行）
+!docs/*.svg
+!docs/*.png
+!docs/*.jpg
+!docs/*.jpeg
+!docs/*.gif
+!docs/**/*.png
+!docs/**/*.jpg
+!docs/**/*.mp3
+!docs/**/*.wav
