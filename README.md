@@ -15,6 +15,8 @@
 | 整体移调 | 人声与伴奏同步升降调，不会脱调 |
 | 拖拽即用 | 把歌拖到 .bat 上，回答几个问题就行 |
 
+<img width="658" height="367" alt="运行流程（running process）" src="https://github.com/user-attachments/assets/8ec5236e-2010-42e2-93f2-19f734ced306" />
+
 ![cover.py 流程图](docs/workflow.svg)
 
 实测耗时（RTX 5060 Laptop，4 分 09 秒的歌）：分离约 78 秒、换声约 30 秒、混音 1 秒，全流程约 110 秒。分轨留在 `output/_work_<歌名>/`，之后调音量只要 4 秒，换音色或改音调加 `--reuse-stems` 可以跳过分离。
