@@ -162,20 +162,39 @@ def find_index(model_file, explicit=None):
     return ""
 
 
-def convert_vocal(vocal_wav, out_path, model, pitch, speaker_id, index_rate, protect,
-                  chunk_sec=30.0, overlap_sec=0.3, work=None, index_path=None,
-                  f0_method="rmvpe", rms_mix=0.25, resample_sr=0):
+# 进程内按模型路径缓存，不做淘汰：只适合一次只用一个模型的 CLI 流程
+# （cover.py / tune.py 均是）。长驻进程轮换模型时，每个条目都会各自
+# 保留 net_g、HuBERT 与 f0 模型，需要显式清理或改成有界 LRU。
+_VC_CACHE = {}
+
+
+def _get_vc(model):
+    """按模型路径加载并缓存 VC 实例。
+
+    tune.py 一次要跑多组参数，之前每组都新建 VC() 并重新加载模型；
+    同一进程内每条模型路径只加载一次。
+    """
     from configs.config import Config
     from infer.vc.modules import VC
-    import numpy as np
-    import soundfile as sf
 
-    cfg = Config()
-    vc = VC(cfg)
     ck = os.path.join(os.environ["weight_root"], model)
     if not os.path.isfile(ck):
         raise FileNotFoundError("模型不存在: %s" % ck)
-    vc.get_vc(model)
+    vc = _VC_CACHE.get(ck)
+    if vc is None:
+        vc = VC(Config())
+        vc.get_vc(model)
+        _VC_CACHE[ck] = vc
+    return vc
+
+
+def convert_vocal(vocal_wav, out_path, model, pitch, speaker_id, index_rate, protect,
+                  chunk_sec=30.0, overlap_sec=0.3, work=None, index_path=None,
+                  f0_method="rmvpe", rms_mix=0.25, resample_sr=0):
+    import numpy as np
+    import soundfile as sf
+
+    vc = _get_vc(model)
 
     # 自动找同名 index
     idx = find_index(model, index_path)
