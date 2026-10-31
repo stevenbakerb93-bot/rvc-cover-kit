@@ -62,10 +62,13 @@ cd Retrieval-based-Voice-Conversion-WebUI
 
 py -3.12 -m venv .venv
 .venv\Scripts\python.exe -m pip install --upgrade pip
+.venv\Scripts\python.exe -m pip install torch==2.7.1+cu128 torchaudio==2.7.1+cu128 --index-url https://mirrors.nju.edu.cn/pytorch/whl/cu128 --extra-index-url https://mirrors.pku.edu.cn/pypi/simple
 .venv\Scripts\python.exe -m pip install -r requirments_cu128_py312.txt
 ```
 
-依赖文件按显卡选：`requirments_cu128_py312.txt`（40 系 / 50 系）、`requirments_cu118_py312.txt`（30 系及更早）、`requirments_cpu_py312.txt`（无独显，能用但很慢）。其余细节以官方文档为准。
+依赖文件按显卡选：`requirments_cu128_py312.txt`（40 系 / 50 系）、`requirments_cu118_py312.txt`（30 系及更早）、`requirments_cpu_py312.txt`（无独显，能用但很慢）。
+
+torch / torchaudio **不在 requirements 里，必须先单独装**（上面第 3 条命令）。跳过这一步的话，pip 为了满足 `torchfcpe`、`pymss` 的依赖会自动从 PyPI 补一个 **CPU 版 torch**——装得上、跑得起来，但 GPU 完全不会被用到，且很难察觉。30 系及更早把命令里的 `+cu128` 和索引地址里的 `cu128` 换成 `cu118`；无独显直接装 `requirments_cpu_py312.txt` 即可，无需单独装 torch。其余细节以官方文档为准。
 
 ### 2. 下载基础模型
 
