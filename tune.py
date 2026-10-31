@@ -107,6 +107,12 @@ def main():
         for prod in itertools.product(*axes.values()):
             d = dict(base)
             d.update(dict(zip(axes.keys(), prod)))
+            # --pitch 未显式指定时，人声变调必须跟随本组 transpose：
+            # 否则扫 transpose 轴只有伴奏被移调、人声停在原调，整首跑调。
+            # tune.bat 给 transpose 轴的默认档（-2,-1,0）会直接踩中这个问题。
+            # 显式传了 --pitch 说明用户有意让人声固定（伴奏单独移调），尊重之。
+            if args.pitch is None and "transpose" in axes and "pitch" not in axes:
+                d["pitch"] = d["transpose"]
             combos.append(d)
     else:
         combos = [dict(base)]
