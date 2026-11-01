@@ -160,6 +160,8 @@ Retrieval-based-Voice-Conversion-WebUI/
 
 推荐顺序：**tune 挑参数 → cover 跑整首 → mix 微调音量**。mix 可以无限循环，每次几秒。
 
+`tune.py` 在同一个进程里复用已加载的 VC 实例：扫 N 组参数只付一次模型加载成本，第 2 组之后每组省约 3 秒（实测 3 组从 29.0 秒降到 23.4 秒，RTX 5060 Laptop）。一次扫的组合越多，收益越明显。
+
 > 跑 cover / tune 前把 WebUI 关掉，能省显存、也更快。
 
 ## 交互项中文对照
