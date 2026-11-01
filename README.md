@@ -68,13 +68,33 @@ py -3.12 -m venv .venv
 
 依赖文件按显卡选：`requirments_cu128_py312.txt`（40 系 / 50 系）、`requirments_cu118_py312.txt`（30 系及更早）、`requirments_cpu_py312.txt`（无独显，能用但很慢）。
 
-cu128 / cu118 两个 GPU 依赖文件里**没有 torch / torchaudio，必须先单独装**（上面 `pip install torch==...` 那条命令）。跳过这一步的话，pip 为了满足 `torchfcpe`、`pymss` 的依赖会自动从 PyPI（或镜像）补上 **CPU 版 torch / torchaudio**——装得上、跑得起来，但 GPU 完全不会被用到，且很难察觉。30 系及更早把这条命令里的两处 `+cu128` 和索引地址里的 `cu128` 都换成 `cu118`，并把 `pip install -r` 的文件名换成 `requirments_cu118_py312.txt`；无独显直接装 `requirments_cpu_py312.txt` 即可，该文件已包含 torch / torchaudio，无需单独装 torch。其余细节以官方文档为准。
+**GPU 版必须分两步装**。两个 GPU 依赖文件里**没有 torch 和 torchaudio**，上面第 3 条命令就是补这一步：
 
-装完可以自检（期望输出 `2.7.1+cu128 True`；若是 `... False` 说明仍是 CPU 版）：
+1. 装 CUDA 版 torch：`pip install torch==2.7.1+cu128 torchaudio==2.7.1+cu128 --index-url ...`
+2. 装其余依赖：`pip install -r requirments_cu128_py312.txt`
+
+**跳过第 1 步会静默降级**。`torchfcpe` 依赖 `torch`、`torchaudio`，`pymss` 要求 `torch>=2.7.1`，pip 会自己从 PyPI 补一个 **CPU 版 torch**。结果是装得上、跑得起来、不报任何错，但 GPU 全程不参与计算，速度慢十几倍，很难自己察觉。
+
+换显卡要改的地方：
+
+| 显卡 | 第 1 步命令 | 第 2 步依赖文件 |
+|---|---|---|
+| 40 / 50 系 | 原样 | `requirments_cu128_py312.txt` |
+| 30 系及更早 | 两处 `+cu128` → `+cu118`，索引地址 `whl/cu128` → `whl/cu118` | `requirments_cu118_py312.txt` |
+| 无独显 | 跳过 | `requirments_cpu_py312.txt`（自带 torch / torchaudio） |
+
+两个补充：
+
+- **别把 torch 升到 2.8 以上**，RVC 只验证到 2.7.x（依赖文件头写的是 `Torch must stay below 2.8`）。
+- 上面用的是南大 pytorch 镜像 + 北大 pypi 镜像。海外可能很慢或不通，换官方源即可：`--index-url` 改成 `https://download.pytorch.org/whl/cu128`，`--extra-index-url` 整段去掉。
+
+**装完自检**：
 
 ```bash
 .venv\Scripts\python.exe -c "import torch; print(torch.__version__, torch.cuda.is_available())"
 ```
+
+期望输出 `2.7.1+cu128 True`。若输出 `2.x.x+cpu False`，说明跑的是 CPU 版，回到第 1 步重装（无独显用户看到 `False` 属正常）。其余细节以官方文档为准。
 
 ### 2. 下载基础模型
 
